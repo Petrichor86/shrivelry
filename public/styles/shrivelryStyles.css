@@ -1,0 +1,71 @@
+.all {
+	background-color: #E6E6E6;
+}
+.head {
+	background-color: #C4C4C4;
+}
+.button {
+	width: 70px;
+	background-color: #72C29B;
+	margin-right: auto;
+	margin-left: auto;
+	border-radius: 5px;
+	padding: 10px;
+	color: #F2F2F2;
+
+}
+
+.title {
+	font-family: 'Cinzel', serif;
+	font-size: 125px;
+	margin-top: 10px;
+	padding: 5px;
+	margin: 10px auto 10px auto;
+	text-align: center;
+	color: #72C29B;
+	text-shadow: 8px 8px 2px #47834B;
+}
+.phrase	{
+	text-align: center;
+	font-size: 40px;
+	color: #47834B;
+	position: relative;
+	font-family: 'Amatic SC', cursive;
+}
+
+.login	{
+	position: relative;
+	color: #A4A875;
+	width: 380px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #F2F2F2;
+	padding: 20px;
+	border: 3px solid #47834B;
+	border-radius: 3px;
+}
+.sign {
+	list-style: none;
+	text-align: right;
+	margin-right: 85px;
+}
+.user {
+	background-color: #72C29B;
+	border: 3px solid #47834B;
+	border-radius: 3px;
+	width: 50%;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 25px;
+
+}
+.plantDisplay {
+	text-align: left;
+	list-style-type: none;
+	border: 2px solid #72C29B;
+	border-radius: 2px; 
+	padding: 5px;
+	background-color: #C4C4C4; 
+
+}
