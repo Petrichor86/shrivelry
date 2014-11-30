@@ -6,7 +6,10 @@
 	<div>
 		<H3>Your Plants</H3>
 		<ul ng-repeat= "plant in currentUser.plants">
-			<li>{{plant.name}}</li>
+			<li>
+				{{plant.nickname}}, the {{plant.plant_id.name}} 
+			</li>
+				<button class="button" ng-click="removePlant(plant)">Remove</button>
 		</ul>
 	</div>
 	<div class = "login">
@@ -17,11 +20,12 @@
 			<li>Name: {{plant.name}}</li>
 			<li>Watering Schedule: {{plant.water}}</li>
 		</ul>
-		Text Reminders<input type="checkbox" ng-model="textmsg">
-		Google Calendar<input type="checkbox" ng-model="calendar">
+		<div ng-hide="plantAdd">
+		Nickname:<input ng-model="nickname">
 		<button ng-click="addNewPlant()">Add to My Collection</button>
+		</div>
 	</div>
 
-	<button ng-click="logOut()">Log Out</button>
+	<button class ="button" ng-click="logOut()">Log Out</button>
 </div>
 

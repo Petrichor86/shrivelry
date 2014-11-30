@@ -8,10 +8,14 @@ app.controller("plantController", function($scope, $location, shrivelryService){
 		}
 	}
 	getUser();
+
+	$scope.removePlant = function(plant) {
+		console.log(plant);
+	};
 	
 	$scope.addNewUser = function(){
 		shrivelryService.addNewUser($scope.newUser);
-		$location.path('/userHome/:user');
+		$location.path('/login');
 	};
 	$scope.goSignUp = function(){
 		$location.path("/signup");
@@ -26,16 +30,18 @@ app.controller("plantController", function($scope, $location, shrivelryService){
 	$scope.plant = {};
 	$scope.hasPlant = true;
 	$scope.findplant = "";
+	$scope.plantAdd = true;
 
 	$scope.searchPlants = function(){
 		shrivelryService.getPlants()
-
 		.then(function(data){
 			$scope.plants = data.data;
+			debugger;
 			for(var i= 0; i< $scope.plants.length; i++){
 				if($scope.findplant === $scope.plants[i].name){
 					$scope.plant = $scope.plants[i];
 					$scope.hasPlant = false;
+					$scope.plantAdd = false;
 					return;
 				}
 			} 
@@ -44,11 +50,12 @@ app.controller("plantController", function($scope, $location, shrivelryService){
 	};
 
 	$scope.addNewPlant = function(){
-	 	shrivelryService.addNewPlant($scope.plant, $scope.currentUser).then(function(){
-	 		getUser();;
+	 	shrivelryService.addNewPlant($scope.plant, $scope.currentUser, $scope.nickname).then(function(){
+	 		getUser();
 	 	});
 	};
 	$scope.logIn = function(user){
+		console.log(user);
 		shrivelryService.login(user);
 
 	};

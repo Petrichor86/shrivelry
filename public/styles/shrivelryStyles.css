@@ -1,8 +1,8 @@
+//flex box
+
+
 .all {
 	background-color: #E6E6E6;
-}
-.head {
-	background-color: #C4C4C4;
 }
 .button {
 	width: 70px;
@@ -14,12 +14,25 @@
 	color: #F2F2F2;
 
 }
+.head {
+	background-color: #C4C4C4;
+}
+.intro {
+	color: white;
+	background-color: #C4C4C4;
+	font-family: 'Amatic SC', cursive;
+	font-size: 25px;
+	display: inline-block;
+	padding: 45px;
+	margin: 50px 200px 50px 200px;
+	text-align: center;
+	border-radius: 5px;
+	
+}
 
 .title {
 	font-family: 'Cinzel', serif;
 	font-size: 125px;
-	margin-top: 10px;
-	padding: 5px;
 	margin: 10px auto 10px auto;
 	text-align: center;
 	color: #72C29B;
@@ -30,6 +43,7 @@
 	font-size: 40px;
 	color: #47834B;
 	position: relative;
+	margin-bottom: 15px;
 	font-family: 'Amatic SC', cursive;
 }
 
@@ -43,7 +57,7 @@
 	background-color: #F2F2F2;
 	padding: 20px;
 	border: 3px solid #47834B;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 .sign {
 	list-style: none;
@@ -53,7 +67,7 @@
 .user {
 	background-color: #72C29B;
 	border: 3px solid #47834B;
-	border-radius: 3px;
+	border-radius: 5px;
 	width: 50%;
 	margin-right: auto;
 	margin-left: auto;
@@ -64,8 +78,8 @@
 	text-align: left;
 	list-style-type: none;
 	border: 2px solid #72C29B;
-	border-radius: 2px; 
-	padding: 5px;
-	background-color: #C4C4C4; 
+	border-radius: 5px; 
+	padding: 25px;
+	background-color: #F2F2F2; 
 
 }

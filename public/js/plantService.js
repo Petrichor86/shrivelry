@@ -25,12 +25,15 @@ app.service('shrivelryService', function($http, $cookieStore, $location){
     		data: user
     	}).then(function(res){
     		console.log(res);
-    		$cookieStore.put('shrivelryUser', res.data);
-    		currentUser = getUser();
-
-    			//if pass doesn't match don't reload login page!
-
-    		$location.path('/user/' + res.data.name);
+    		if(res.data.error){
+    			alert("Sorry, wrong email or password. Please try again.");
+    			$location.path('/');
+    		}
+    		else{
+    			$cookieStore.put('shrivelryUser', res.data);
+    			currentUser = getUser();
+    			$location.path('/user/' + res.data.name);
+    		}	
     	})
     }
 
@@ -59,14 +62,15 @@ app.service('shrivelryService', function($http, $cookieStore, $location){
 			url: baseUrl + "/plants"
 		});
 	}
-	this.addNewPlant = function(plant, user) {
+	this.addNewPlant = function(plant, user, nickname) {
 		return $http({
 		method: "POST",
 		url: baseUrl + "/users/myplants",
 		data: {
-			plant: plant, user: user
+			plant: plant, user: user, nickname: nickname
 		}
 	}).then(function(res){
+
 		$cookieStore.put('shrivelryUser', res.data);
 	});
   };

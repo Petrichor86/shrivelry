@@ -3,22 +3,10 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
-//testing twilio:
-// var twilio = require("path/to/twilio-node/lib");
-// var accountSid = 'AC979e19c8e65f77fc73379299ca570c3a';
-// var authToken = "f08ee7748ebea1b6fbacc14870fb032c";
-// var client = require('twilio')(accountSid, authToken);
- 
-// client.messages.create({
-//     body: "Jenny please?! I love you <3",
-//     to: "+18015406417",
-//     from: "3852090079"
-// }, function(err, message) {
-//     process.stdout.write(message.sid);
-// });
-
 var app = express();
 app.use(bodyParser.json());
+
+var textbelt = require('textbelt');
 
 app.use(session({
     secret: 'whateverIwant',
@@ -33,17 +21,83 @@ mongoose.connect('mongodb://localhost/shrivelry');
 
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
+var UserPlantSchema = new mongoose.Schema({
+	nickname: String,
+	plant_id: {type: ObjectId, ref: 'Plant'},
+	date_created: {type: Date, default: Date.now()}
+});
+
 var UserSchema = new mongoose.Schema({
 	name: String,
 	email: String,
 	password: String,
 	phoneNum: String,
-	plants: [{type: ObjectId, ref: 'Plant', plantReminder: Date}]
-
-
-	//plant Reminder must be handled by me when added to a user's plants [].
-	//set plantReminder to current time 
+	plants: [UserPlantSchema]
 });
+
+var UserPlant = mongoose.model('UserPlant', UserPlantSchema);
+
+//adding a plant to a user:
+app.post('/users/myplants', function(req,res) {
+	console.log(req.body);
+	User.findOne({_id: req.body.user._id}).populate({ path:'plants.plant_id' }).exec(function(err, user) {
+		if(err) {
+			console.log(user);
+			res.status(404).send(err);
+		}
+		else{
+			var user_plant = new UserPlant();
+			user_plant.nickname = req.body.nickname;
+			user_plant.plant_id = req.body.plant._id;
+			user_plant.date_created = Date.now();
+
+			user.plants.push(user_plant);
+			console.log(user);
+			user.save(function(err) {
+				if(err){
+					res.status(404).send(err);
+				}
+				else{
+					User.findById(user.id).populate('plants.plant_id').exec(function (err, user) {
+						res.send(user);
+					});
+				}
+			});
+		}
+	});	
+});
+
+app.get("/sendtext", function(req, res){
+	var currentTime = Date.now();
+
+	User.find({plants: {$elemMatch: {date_created: { $lt: currentTime }}}}).populate('plants.plant_id').exec(function(err, users){
+		if(err)	{
+			res.status(404).send(err);
+		}
+		else{
+			users.forEach(function (user) {
+				user.plants.forEach(function (plant) {
+
+					if(plant.date_created < currentTime) {
+						textbelt(user.phoneNum, 'Be sure to water your ' + plant.plant_id.name +", "+ plant.nickname + "!");
+				
+						var dateCheck = new Date(Date.now() + (plant.plant_id.type * 84600000));
+						plant.date_created = dateCheck;
+
+						// Save the actual updated records
+						user.save(function (err) {
+							console.log("I updated " + plant.nickname + "'s and texted a reminder to " + user.name);
+						});
+					}
+				})
+			})
+			res.status(200).send();
+		}
+	})
+
+
+});
+
 var User = mongoose.model('User', UserSchema);
 
 
@@ -54,7 +108,7 @@ var PlantSchema = new mongoose.Schema({
 	notes: String,
 	type: Number
 });
-var Plant = mongoose.model('Plant', PlantSchema) //become the plants collection
+var Plant = mongoose.model('Plant', PlantSchema); 
 
 //adding a user to the collection:
 
@@ -96,7 +150,7 @@ app.post('/newplant', function(req,res){
 //getting all users' information in order to show plants in each user's collection:
 
 app.post('/login', function(req, res) {
-	User.findOne({email: req.body.email}).populate('plants').exec(function(err, user) {
+	User.findOne({email: req.body.email}).populate('plants.plant_id').exec(function(err, user) {
 		if(err){
 			res.send(err);
 		} else {
@@ -124,35 +178,6 @@ app.get('/plants', function(req,res) {
 	});
 });
 
-//adding a plant to a user:
-app.post('/users/myplants', function(req,res) {
-	console.log(req.body);
-	User.findOne({_id: req.body.user._id}).populate('plants').exec(function(err, user) {
-		if(err) {
-			console.log(user);
-			res.status(404).send(err);
-		}
-		else{
-			console.log(user);
-			debugger;
-			console.log("ninja");
-			var dateAdded = Date.now();
-			user.plants.addToSet(req.body.plant, dateAdded);
-			console.log(user.plants.plantReminder);
-			user.save(function(err){
-				if(err){
-					res.status(404).send(err);
-				}
-				else{
-					res.send(user);
-				}
-				console.log(user.plants);
-			});
-		}
-
-	});	
-
-})
 
 // var katie = new User({
 // 	name: "Katie",
