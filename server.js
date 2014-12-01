@@ -128,6 +128,30 @@ app.post('/signup', function(req, res){
 		}
 	})
 });
+app.delete('/deletePetPlant/:id', function(req,res){
+	User.findOne({"plants": {"$elemMatch" : {"_id" : req.params.id} }}).exec(function(err,user) {
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log(user);
+			user.plants.id(req.params.id).remove();
+			user.save(function (err){
+				if (err) {
+					res.send(err);
+				}
+				else{
+					User.findById(user.id).populate('plants.plant_id').exec(function (err, user) {
+						res.send(user);
+					});
+					console.log("your plant was removed");}
+			});
+		}
+	})
+});
+	
+
+
 //adding a plant to the database collection
 app.post('/newplant', function(req,res){
 	var newPlant = new Plant({
@@ -153,10 +177,15 @@ app.post('/login', function(req, res) {
 	User.findOne({email: req.body.email}).populate('plants.plant_id').exec(function(err, user) {
 		if(err){
 			res.send(err);
-		} else {
-			if(user.password === req.body.password){
+		} 
+		else {
+			if(!user){
+				res.send({error: "Error WRONG Email"})
+			}
+			 else if(user.password === req.body.password){
 				res.send(user);
-			} else {
+			}
+			else {
 				res.send({error: "Error WRONG PASSWORD"});
 			}
 		}

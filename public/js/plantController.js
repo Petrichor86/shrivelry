@@ -10,7 +10,7 @@ app.controller("plantController", function($scope, $location, shrivelryService){
 	getUser();
 
 	$scope.removePlant = function(plant) {
-		console.log(plant);
+		shrivelryService.removePlant(plant).then(getUser);
 	};
 	
 	$scope.addNewUser = function(){
@@ -36,7 +36,7 @@ app.controller("plantController", function($scope, $location, shrivelryService){
 		shrivelryService.getPlants()
 		.then(function(data){
 			$scope.plants = data.data;
-			debugger;
+			debugger; 
 			for(var i= 0; i< $scope.plants.length; i++){
 				if($scope.findplant === $scope.plants[i].name){
 					$scope.plant = $scope.plants[i];
@@ -51,11 +51,12 @@ app.controller("plantController", function($scope, $location, shrivelryService){
 
 	$scope.addNewPlant = function(){
 	 	shrivelryService.addNewPlant($scope.plant, $scope.currentUser, $scope.nickname).then(function(){
+	 		$scope.findplant = "";
+	 		$scope.nickname = "";
 	 		getUser();
-	 	});
+	 	})
 	};
 	$scope.logIn = function(user){
-		console.log(user);
 		shrivelryService.login(user);
 
 	};

@@ -24,7 +24,6 @@ app.service('shrivelryService', function($http, $cookieStore, $location){
     		url: baseUrl + '/login',
     		data: user
     	}).then(function(res){
-    		console.log(res);
     		if(res.data.error){
     			alert("Sorry, wrong email or password. Please try again.");
     			$location.path('/');
@@ -37,12 +36,27 @@ app.service('shrivelryService', function($http, $cookieStore, $location){
     	})
     }
 
+    this.removePlant = function(plant){
+    	console.log(plant);
+    	return $http({
+    		method: "DELETE",
+    		url: baseUrl + '/deletePetPlant/'+ plant._id
+    	})
+    		//trying the promise
+    	.then(function(res){
+
+		$cookieStore.put('shrivelryUser', res.data);
+	});
+    	//end of trying
+    };
+
 	this.getUsers = function() {
 		return $http({
 			method: "GET",
 			url: baseUrl + "/users"
 		});
 	}
+
 	this.addNewUser = function(newUser) {
 		console.log(newUser);
 		return $http({
