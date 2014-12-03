@@ -1,10 +1,8 @@
-//flex box
-
 
 .all {
 	background-color: #E6E6E6;
 }
-.button {
+.shrivelbutton {
 	width: 70px;
 	background-color: #72C29B;
 	margin-right: auto;
@@ -59,10 +57,19 @@
 	border: 3px solid #47834B;
 	border-radius: 5px;
 }
+
 .sign {
 	list-style: none;
 	text-align: right;
 	margin-right: 85px;
+}
+.userlist {
+	color: #47834B;
+	background-color: #E6E6E6;
+	list-style: none;
+	text-align: center;
+	border: 3px solid #47834B;
+	padding: 5px;
 }
 .user {
 	background-color: #72C29B;
@@ -81,4 +88,7 @@
 	padding: 25px;
 	background-color: #F2F2F2; 
 
+}
+#input {
+	font-size: 16pt;
 }

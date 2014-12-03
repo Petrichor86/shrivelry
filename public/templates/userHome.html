@@ -1,31 +1,36 @@
-<div>
-	<H1 class= "phrase" >Welcome {{currentUser.name}}!</H1>
-	<button class ="button" ng-click="logOut()">Log Out</button>
+
+<div class = "container4">
+<div class="container3">
+	<div class="welcome">
+		<H1>Welcome {{currentUser.name}}!</H1>
+	</div>
+	<button class ="logout" ng-click="logOut()">Log Out</button>
+	<div class = "plantsearch">
+			<h3>Add a New Plant</h3>
+			Plant Name: <input class="betterBox" ng-model="findplant">
+			<button class ="remove" ng-click = "searchPlants()">Search</button>
+			<ul class= "searchDisplay" ng-hide="hasPlant">
+				<li>Name: {{plant.name}}</li>
+				<li>Watering Schedule: {{plant.water}}</li>
+			</ul>
+			<div ng-hide="plantAdd">
+			Nickname:<input class="betterBox" ng-model="nickname">
+			<button class = "remove" ng-click="addNewPlant()">Add to My Collection</button>
+			</div>
+	</div>
 </div>
 
-<div class="user">
-	<div>
-		<H3>Your Plants</H3>
-		<ul ng-repeat= "plant in currentUser.plants">
-			<li>
-				{{plant.nickname}}, the {{plant.plant_id.name}} 
-			</li>
-				<button class= 'babybutton' ng-click="removePlant(plant)">Remove</button>
-		</ul>
-	</div>
-	<div class = "login">
-		<h3>Add a New Plant</h3>
-		Plant Name: <input ng-model="findplant">
-		<button class ="button" ng-click = "searchPlants()">Search</button>
-		<ul class= "plantDisplay" ng-hide="hasPlant">
-			<li>Name: {{plant.name}}</li>
-			<li>Watering Schedule: {{plant.water}}</li>
-		</ul>
-		<div ng-hide="plantAdd">
-		Nickname:<input ng-model="nickname">
-		<button ng-click="addNewPlant()">Add to My Collection</button>
+		<div class ="user">
+			<H2>Your Plants</H2>
+			<ul class="plantDisplay" ng-repeat= "plant in currentUser.plants">
+				<li>
+					{{plant.nickname}}, the {{plant.plant_id.name}} 
+					<button class= 'remove' ng-click="removePlant(plant)">Remove</button>
+				</li>
+					
 		</div>
-	</div>
+</div>	
 
-</div>
+<h3 class ="titlefoot">The Window Sill</h3>
+<IMG class="foot" SRC="../images/bottom2.jpg" ALT="windowsillbottom" WIDTH=100% HEIGHT=auto>
 
