@@ -14,8 +14,14 @@ app.controller("plantController", function($scope, $location, shrivelryService){
 	};
 	
 	$scope.addNewUser = function(){
+		if(!$scope.newUser || !$scope.newUser.name || !$scope.newUser.email || !scope.newUser.password || !scope.newUser.phonNum){
+			alert("Invalid user creation. Please try again. Be sure to fill out all fields!");
+			$location.path('/');
+		}
+		else{
 		shrivelryService.addNewUser($scope.newUser);
 		$location.path('/login');
+		}
 	};
 	$scope.goSignUp = function(){
 		$location.path("/signup");
@@ -36,7 +42,6 @@ app.controller("plantController", function($scope, $location, shrivelryService){
 		shrivelryService.getPlants()
 		.then(function(data){
 			$scope.plants = data.data;
-			debugger; 
 			for(var i= 0; i< $scope.plants.length; i++){
 				if($scope.findplant === $scope.plants[i].name){
 					$scope.plant = $scope.plants[i];
@@ -62,5 +67,9 @@ app.controller("plantController", function($scope, $location, shrivelryService){
 	};
 	$scope.logOut = function(){
 		shrivelryService.logout();
+	};
+	$scope.plantRequest = function(){
+		alert($scope.plantForRequest + " has been added to our request list! Check back soon for database updates.");
+		$location.path('/user/'+ $scope.currentUser.name);
 	};
 });
